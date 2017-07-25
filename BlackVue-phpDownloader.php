@@ -66,6 +66,7 @@ echo "{$cnt} files left to fetch, estimated time to fetch all is {$estimatedSeco
 rsort($filenames);
 
 
+echo PHP_EOL;
 foreach($filenames as $filename) {
 	echo "Fetching file {$filename}\n";
 
@@ -90,5 +91,6 @@ foreach($filenames as $filename) {
 	echo PHP_EOL;
 }
 
-
+echo "All files fetched\n";
 curl_close($ch);
+exit(0);
