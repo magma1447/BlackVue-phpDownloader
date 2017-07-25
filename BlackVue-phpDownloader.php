@@ -23,11 +23,11 @@ curl_setopt_array(
 $rsp = curl_exec($ch);
 $errno = curl_errno($ch);
 if(empty($rsp) || $errno !== 0) {
-	echo "Error when fetching list, errno: {$errno}\n";
+	echoerr("Error when fetching list, errno: {$errno}\n");
 	exit(1);
 }
-
 $filenames = explode("\r\n", $rsp);
+
 // Remove "v:2.00"
 $filenames = array_filter($filenames, function($line) {
 	return (strpos($line, 'n:/') === 0) ? TRUE : FALSE;
@@ -41,8 +41,8 @@ $filenames = array_map(function($line) {
 	}
 
 	var_dump($line);
-	echo "Warning: no match\n";
-	return FALSE;
+	echoerr("Error: Failed to parse line\n");
+	exit(1);
 }, $filenames);
 
 
@@ -53,7 +53,7 @@ $filenames = array_filter($filenames, function($filename) use ($destination) {
 	return (file_exists($destination . $filename)) ? FALSE : TRUE;
 });
 $cnt = count($filenames);
-$estimatedSeconds = $cnt*30;
+$estimatedSeconds = $cnt*25;
 echo "{$cnt} files left to fetch, estimated time to fetch all is {$estimatedSeconds} seconds\n";
 
 
