@@ -8,6 +8,11 @@ function echoerr($string) {
 	fwrite(STDERR, $string);
 }
 
+
+// Make sure destination has a trailing slash, it's assumed later on in the code
+$destination = rtrim($destination, '/') . '/';
+
+
 $ch = curl_init();
 curl_setopt_array(
 	$ch,
