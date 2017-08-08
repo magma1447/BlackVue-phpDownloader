@@ -91,6 +91,11 @@ echo "{$filesToFetch} files left to fetch, estimated time to fetch all is {$esti
 $report[] = "{$filesToFetch} filenames left to fetch";
 
 
+if($filesToFetch == 0) {
+	exit(EXIT_SUCCESS);
+}
+
+
 // Sort the array to fetch newest first
 rsort($filenames);
 
