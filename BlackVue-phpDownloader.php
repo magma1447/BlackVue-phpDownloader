@@ -108,6 +108,15 @@ foreach($filenames as $filename) {
 
 	$t1 = microtime(TRUE);
 	curl_setopt($ch, CURLOPT_URL, "http://{$config['hostname']}/Record/{$filename}");
+	curl_setopt($ch, CURLOPT_NOPROGRESS, FALSE);
+	curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, function($ch, $downloadTotal, $downloaded, $uploadTotal, $uploaded) {
+		$percent = 0;
+		if($downloadTotal > 0) {
+			$percent = round($downloaded/$downloadTotal*100, 2);
+		}
+		fwrite(STDERR, "{$percent}%\n");
+		sleep(10);
+	});
 	$rsp = curl_exec($ch);
 	$errno = curl_errno($ch);
 	if(empty($rsp) || $errno !== 0) {
